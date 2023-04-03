@@ -1,6 +1,6 @@
 // { b, c, d, e, f, a, g }
 
-void display_digit(int interface, const int *digit) {
+void display_array(int interface, const int *digit) {
   for (int i = 2; i < 9; i++)
     digitalWrite(i, !digit[i-2]);
 
@@ -16,12 +16,16 @@ void reset_pins() {
 }
 
 void display_number(int interface, int value) {
-  const int DIGITAL_NAN[7] = {1, 1, 1, 1, 1, 1, 1};
   const int DIGITAL_ZERO[7] = {1, 1, 1, 1, 1, 1, 0};
   const int DIGITAL_ONE[7] = {0, 0, 0, 1, 1, 0, 0};
   const int DIGITAL_TWO[7] = {0, 1, 1, 0, 1, 1, 1};
   const int DIGITAL_THREE[7] = {0, 0, 1, 1, 1, 1, 1};
   const int DIGITAL_FOUR[7] = {1, 0, 0, 1, 1, 0, 1};
+  const int DIGITAL_FIVE[7] = {1, 0, 1, 1, 0, 1, 1};
+  const int DIGITAL_SIX[7] = {1, 1, 1, 1, 0, 1, 1};
+  const int DIGITAL_SEVEN[7] = {1, 1, 0, 0, 0, 1, 0};
+  const int DIGITAL_EIGHT[7] = {1, 1, 1, 1, 1, 1, 1};
+  const int DIGITAL_NINE[7] = {1, 0, 0, 1, 1, 1, 1};
 
   const int *buffer;
 
@@ -30,11 +34,15 @@ void display_number(int interface, int value) {
   else if (value == 2) buffer = DIGITAL_TWO;
   else if (value == 3) buffer = DIGITAL_THREE;
   else if (value == 4) buffer = DIGITAL_FOUR;
-  else buffer = DIGITAL_NAN;
+  else if (value == 5) buffer = DIGITAL_FIVE;
+  else if (value == 6) buffer = DIGITAL_SIX;
+  else if (value == 7) buffer = DIGITAL_SEVEN;
+  else if (value == 8) buffer = DIGITAL_EIGHT;
+  else if (value == 9) buffer = DIGITAL_NINE;
+  else buffer = DIGITAL_ZERO;
 
-  display_digit(interface, buffer);
+  display_array(interface, buffer);
 }
-
 
 void setup() {
   for (int pin = 2; pin < 14; pin++)
@@ -44,8 +52,12 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 4; i > 0; i--) {
-    display_number(i+9, 5-i);
-    reset_pins();
-  }
+  display_number(13, 3);
+  reset_pins();
+  display_number(12, 1);
+  reset_pins();
+  display_number(11, 4);
+  reset_pins();
+  display_number(10, 2);
+  reset_pins();
 }
