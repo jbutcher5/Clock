@@ -1,6 +1,7 @@
 typedef struct {
   int hours;
   int minutes;
+  int seconds;
 } Time;
 
 static Time time = {.hours = 0, .minutes = 0};
@@ -78,10 +79,11 @@ void display_time(Time t) {
 }
 
 void update_time(Time *t, unsigned long ms) {
-  ms /= (unsigned long)pow(10, 6);
+  unsigned long s = ms / (unsigned long)pow(10, 3);
 
-  t->minutes = (int)ms % (int)60;
-  t->hours = (int)ms / (int)60;
+  t->seconds = (int)s % 60;
+  t->minutes = (int)(s % 3600) / 60;
+  t->hours = (int)(s / 3600) % 24;
 }
 
 void setup() {
